@@ -1,0 +1,81 @@
+
+body {
+    background-color: rgb(231, 127, 41);
+}
+h1 {
+    font-family: "Luckiest Guy" ;
+    align-content: center;
+    text-align: center;
+    font-size: 70px;
+    margin-bottom: 10px;
+}
+
+.toph {
+    text-align: center;
+    font-size: 26px;
+
+}
+
+p {
+    font-size: 21px;
+    font-family: "Comic Sans MS";
+    margin-top: none;
+}
+.box1 {
+    background-color: rgb(247, 205, 107);
+    border:6px solid black;
+    border-radius:10px;
+    padding:15px;
+    margin-left:850px;
+    margin-right:70px
+    
+}
+.box2 {
+    background-color:  rgb(247, 205, 107);
+    border:6px solid black;
+    border-radius:10px;
+    padding:15px;
+    margin-left:850px;
+    margin-right:70px;
+    margin-top:0px;
+}
+
+.img1{
+    float:left;
+    margin-left:120px;
+    margin-right:0px;
+    width: 50%;
+    height: 499px;
+    align-self: center;
+    border: 6px solid black;
+    border-radius: 15px;
+}
+
+.btn-container {
+    display:flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.start {
+    background-color: rgb(247, 91, 113);
+    margin:20px autp;
+    color:black;
+    font-size: 29px;
+    padding:10px 20px;
+    border:5px solid black;
+    border-radius: 10px;
+    cursor:pointer;
+    font-family: "Fredoka One";
+    margin-left: 20px;
+}
+.start:hover {
+    background-color: aqua;
+    color:black;
+}
+#loading-screen {
+    text-align :center;
+    font-size: 24px;
+    font-family:"Fredoka One", cursive;
+    margin-top: 7px;
+}

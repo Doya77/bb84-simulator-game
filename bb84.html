@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BB84 QKD Simulator</title>
+ <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Chewy&family=Fredoka+One&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Baloo+2&family=Paytone+One&display=swap" rel="stylesheet">
+
+    </head>
+    <body><link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <h1>⚛ BB84 QKD SIMULATOR</h1>
+    <p><b>QUANTUM KEY DISTRIBUTION PROTOCOL </b> </p>
+  </header>
+
+  <!-- PLAYER SELECT SCREEN -->
+  <div id="screen-players">
+    <div class="card neutral">
+      <div class="header-p"><b>CONTEXT</b></div>
+      <p >
+        <br><strong>Alice</strong> wants to send a secret key to
+        <strong>Bob</strong> over a quantum channel.
+        <strong>Eve</strong> is lurking and note any eavesdropping
+        <b>necessarily disturbs</b> the quantum states and can be detected (since measurement collapses the state).
+      </p>
+    </div>
+
+    <div class="card neutral">
+      <div class="header-p"><b>SELECT NUMBER OF PLAYERS</b> </div>
+      <div class="text"><p>(remaining players will be computer)</p></div>
+      <div class="player-options">
+        <div class="player-card" id="pc1" onclick="selectPlayers(1)">
+          <div class="player-count">1</div>
+          <h3>Solo</h3>
+          <p>You control <strong >Alice</strong>.<br>
+          Eve &amp; Bob are computer-generated.</p>
+        </div>
+        <div class="player-card" id="pc2" onclick="selectPlayers(2)">
+          <div class="player-count">2</div>
+          <h3>Alice + Bob</h3>
+          <p>You control <strong >Alice</strong> &amp; <strong>Bob</strong>.<br>
+          Eve is computer-generated.</p>
+        </div>
+        <div class="player-card" id="pc3" onclick="selectPlayers(3)">
+          <div class="player-count">3</div>
+          <h3>All Players</h3>
+          <p>You control <strong>Alice</strong>, <strong>Eve</strong> &amp; <strong>Bob</strong>.<br>
+          Full manual control.</p>
+        </div>
+      </div>
+
+      <div class="bit-count-area">
+        <label><b>NUMBER OF QUBITS TO TRANSMIT</b></label>
+        <div class="number"><input type="number" id="numBits" value="8" min="4" max="20"/></div>
+        <div class="tooltip">Recommended: 4–16 bits for clarity</div>
+      </div>
+
+      <div class="btn-row" style="justify-content:center; margin-top:24px;">
+        <button class="btn btn-primary" id="startBtn" onclick="startGame()" disabled>
+          ▶ INITIALIZE PROTOCOL
+        </button>
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- GAME SCREEN -->
+  <div id="screen-game">
+
+    <!-- Progress tracker -->
+    <div class="progress-track" id="progressTrack"></div>
+
+    <!-- STEP 1: Alice Input -->
+    <div class="step-section" id="step-alice">
+      <div class="img-box">
+      <img src="images/frame_03.png">
+    </div>
+      <div class="card alice">
+        <p><b>Prepare Alice's quantum states</b></p>
+        <p>
+          Alice prepares qubits by choosing a <strong style="color:var(--alice)">bit value</strong> (0 or 1)
+          and a <strong >basis</strong> (Z = rectilinear ✚, X = diagonal ✕) for each qubit.
+          <span id="alice-auto-note"></span>
+        </p>
+
+        <div class="bit-row">
+          <div class="bit-row-label"><br><b>ALICE'S BITS (click to toggle 0 / 1)</b></div>
+          <div class="bit-grid" id="aliceBits"></div>
+        </div>
+        <div class="bit-row">
+          <div class="bit-row-label"><b>ALICE'S BASES (click to toggle Z / X)</b></div>
+          <div class="bit-grid" id="aliceBases"></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="bit-row">
+          <p style="font-size: 17px;"><b>ALICE's QUANTUM STATES (auto-computed)</b><br></p>
+          <div class="bit-grid" id="aliceStates"></div>
+          <div class="legend">
+            <div class="legend-item"><div class="legend-sym">|0⟩</div> Bit 0, Z-basis</div>
+            <div class="legend-item"><div class="legend-sym">|1⟩</div> Bit 1, Z-basis</div>
+            <div class="legend-item"><div class="legend-sym">|+⟩</div> Bit 0, X-basis</div>
+            <div class="legend-item"><div class="legend-sym">|−⟩</div> Bit 1, X-basis</div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="goToEve()">NEXT → EVE INTERCEPTS</button>
+          <button class="btn btn-ghost" onclick="randomizeAlice()">🎲 RANDOMIZE</button>
+        </div>
+      </div>
+      
+    </div>
+
+    <!-- STEP 2: Eve Eavesdrop -->
+    <div class="step-section" id="step-eve">
+      <div class="img-box">
+      <img src="images/frame_1.png">
+    </div>
+      
+
+      <div class="card eve">
+        <div ><b>EVE EAVESDROPPING</b></div>
+        <p>
+          Eve intercepts each qubit and measures it in her chosen basis before re-sending to Bob.
+          If her basis doesn't match Alice's, she <em>collapses the quantum state</em>
+          — introducing detectable errors.
+          <span id="eve-auto-note"></span>
+        </p>
+        <div class="scanning-bar active" id="scanBar"></div>
+
+        <div class="bit-row">
+          <div>EVE'S MEASUREMENT BASES (click to toggle Z / X)</div>
+          <div class="bit-grid" id="eveBases"></div>
+        </div>
+        <div class="bit-row">
+          <div class="bit-row-label">EVE'S MEASURED STATES</div>
+          <div class="bit-grid" id="eveMeasured"></div>
+        </div>
+        <div class="bit-row">
+          <div class="bit-row-label">STATES FORWARDED TO BOB (re-prepared by Eve)</div>
+          <div class="bit-grid" id="eveForwarded"></div>
+        </div>
+
+        <div class="info-box">
+          ⚠ When Eve's basis matches Alice's: she gets the right bit and forwards the correct state.
+          When it doesn't: she gets a random bit and forwards a disturbed state — Bob may measure the wrong value even with the correct basis.
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-eve" onclick="goToBob()">NEXT → BOB MEASURES</button>
+          <button class="btn btn-ghost" onclick="goToAlice()">← BACK</button>
+          <button class="btn btn-ghost" onclick="randomizeEve()">🎲 RANDOMIZE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: Bob Input -->
+    <div class="step-section" id="step-bob">
+      <div class="img-box">
+      <img src="images/frame_5.png">
+    </div>
+      <div class="card bob">
+        <p><b>BOB MEASURES QUBITS</b></p>
+        <p>
+          Bob receives the qubits (possibly disturbed by Eve) and measures each in a randomly chosen basis.
+          He doesn't know Alice's bases yet.<br><br>
+          <span id="bob-auto-note"></span>
+        </p>
+
+        <div class="bit-row">
+          <div class="bit-row-label"><b>BOB'S MEASUREMENT BASES (click to toggle Z / X)</b></div>
+          <div class="bit-grid" id="bobBases"></div>
+        </div>
+        <div class="bit-row">
+          <div class="bit-row-label"><b>BOB'S MEASURED BITS</b></div>
+          <div class="bit-grid" id="bobMeasured"></div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-bob" onclick="goToSift()">NEXT → SIFT KEY</button>
+          <button class="btn btn-ghost" onclick="goToEve()">← BACK</button>
+          <button class="btn btn-ghost" onclick="randomizeBob()">🎲 RANDOMIZE</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: Sift & Results -->
+    <div class="step-section" id="step-results">
+      <div class="card neutral">
+        <div class="card-title neutral">📡 BASIS RECONCILIATION — PUBLIC CHANNEL</div>
+        <p style="font-size:0.82rem; color:var(--muted); margin-bottom:16px; line-height:1.6;">
+          Alice and Bob compare their <em>bases only</em> (not bits) over a public channel.
+          They keep only the bits where their bases matched. This is the <strong >sifted key</strong>.
+        </p>
+
+        <div style="overflow-x:auto;">
+          <table class="result-table" id="resultTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th style="color:var(--alice)">Alice Bit</th>
+                <th style="color:var(--alice)">Alice Basis</th>
+                <th style="color:var(--alice)">Alice State</th>
+                <th style="color:var(--eve)">Eve Basis</th>
+                <th style="color:var(--eve)">Eve Measured</th>
+                <th style="color:var(--bob)">Bob Basis</th>
+                <th style="color:var(--bob)">Bob Measured</th>
+                <th style="color:var(--gold)">Match?</th>
+                <th style="color:var(--gold)">Key Bit</th>
+              </tr>
+            </thead>
+            <tbody id="resultBody"></tbody>
+          </table>
+        </div>
+
+        <div class="stats" id="statsRow"></div>
+
+        <div id="keySection">
+          <div class="key-display">
+            <div class="key-label">ALICE'S SIFTED KEY</div>
+            <div class="key-value" id="aliceKey"></div>
+          </div>
+          <div class="key-display" style="margin-top:8px;">
+            <div class="key-label">BOB'S SIFTED KEY</div>
+            <div class="key-value" id="bobKey"></div>
+          </div>
+        </div>
+
+        <div id="eveAlert"></div>
+
+        <div class="btn-row" style="margin-top:24px;">
+          <button class="btn btn-ghost" onclick="goToBob()">← BACK</button>
+          <button class="btn btn-gold" onclick="resetGame()">🔄 NEW SIMULATION</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end screen-game -->
+
+</div><!-- end app -->
+
+<script src="script.js"></script>
+</body>
+</html>

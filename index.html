@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width , initial-scale=1.0">
+        <title>BB84 QKD simulator</title>
+        <link rel="stylesheet" href="style0.css">
+        <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Chewy&family=Fredoka+One&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Baloo+2&family=Paytone+One&display=swap" rel="stylesheet">
+
+    </head>
+    <body>
+        <h1>Quantum Key Distribution</h1>
+        <p class="toph">This is a demonstration <b>BB84 protocol</b> in <b>Quantum Key Distribution (QKD) protocols </b>
+             </p>
+        <div>
+        <img class="img1" src="images/frame_01.png">
+        <div class="box1">
+        <p><b><U>Context :</U></b> <br><b>Alice</b> and <b>Bob</b> are friends trying to communicate across a distance over a channel.<br>They want their their conversation to be private</p>
+        <p><b>Eve</b> the eavesdropper wants to listen in on their messages without their knowledge by intercepting the communication channel.</p>
+        </div>
+        <div class="box2">
+            <p>Let's find out how to keep the channel secure using the BB84 protocol!</p>
+        </div>
+        </div>
+        
+        <div class="btn-container">
+        <button class="start" onclick="showLoading()">Start</button>
+        </div>
+        <div id="loading-screen" style="display:none;">
+            <h2>Loading<span id="dots">...</span></h2>
+        </div>
+        <script src="script.js"></script>
+    </body>
+
+</html>

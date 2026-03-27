@@ -1,0 +1,125 @@
+
+body {
+    background-color: rgb(231, 127, 41);
+}
+h1{
+    font-family: "Luckiest Guy" ;
+    font-size: 70px;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 0px;
+}
+p {
+    font-size: 29px;
+    font-family: "Comic Sans MS";
+    margin-top: none;
+}
+.subtitle {
+        text-align:center;
+
+}
+.s2 {
+    font-size: 23px;
+        text-align:center;
+
+}
+.s3 {
+    font-size: 19px;
+}
+h2 {
+    font-family: "Comic Sans MS";
+}
+.container {
+    display:flex;
+    justify-content: space-between;
+    gap:20px;
+}
+
+.box1 {
+    font-family:"Comic Sans MS";
+    align-items: center;
+    background-color:  rgb(247, 200, 107);
+    flex: 0 0 40%;
+    border:5px solid black;
+    margin-left: 120px;
+    border-radius: 8px;
+    padding:20px;
+}
+
+.bit-grid {
+    display:flex;
+    flex-wrap: wrap;
+    gap:8px;
+    margin-top: 10px;
+    justify-content: center;
+}
+.bit-grid span {
+    padding: 6px 12px;
+    font-size: 18px;
+    border: 2px solid black;
+    border-radius: 8px;
+    background-color: lightyellow;
+    text-align: center;
+    min-width: 30px;
+}
+.bit-grid span.state-0 { background-color: rgb(108, 224, 253); }   /* |0⟩ */
+.bit-grid span.state-1 { background-color: rgb(239, 94, 137); }   /* |1⟩ */
+.bit-grid span.state-plus { background-color: rgb(128, 248, 188); }  /* |+⟩ */
+.bit-grid span.state-minus { background-color: rgb(253, 194, 83); } /* |−⟩ */
+
+.bit-grid button{
+    padding:10px 20px;
+    font-size:17px;
+    border:2px solid rgb(16, 3, 4);
+    border-radius: 8px;
+    cursor:pointer;
+    background-color: rgb(247, 91, 113);
+}
+.bit-grid button:hover {
+    transform: scale(1.1);
+    background-color: aqua;
+}
+
+.img1 img{
+    width:622px;
+    float:right;
+    margin-right:70px;
+    border:5px solid black;
+    border-radius: 8px;
+}
+.next {
+    font-family: "Comic Sans MS";
+    font-size:14px;
+    padding:10px;
+    border:2px solid black;
+    border-radius: 8px;
+    margin-top: 30px;
+    align-items: center;
+    text-align: center;
+    background-color:rgb(231, 127, 41);
+    cursor:pointer;
+}
+
+.next:hover {
+    background-color:aqua;
+}
+
+.step {
+    background-color:  rgb(247, 200, 107);
+    width : 500px;
+    font-family:"Comic Sans MS";
+    align-items: center;
+    flex: 0 0 40%;
+    border:5px solid black;
+    margin-left: 120px;
+    border-radius: 8px;
+    padding:20px;
+}
+.img2 img {
+    width:622px;
+    float:right;
+    margin-right:70px;
+    border:5px solid black;
+    border-radius: 8px;
+
+}
